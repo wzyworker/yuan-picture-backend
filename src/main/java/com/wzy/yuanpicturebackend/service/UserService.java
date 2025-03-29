@@ -1,11 +1,15 @@
 package com.wzy.yuanpicturebackend.service;
 
 import cn.hutool.http.server.HttpServerRequest;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wzy.yuanpicturebackend.model.dto.user.UserQueryRequest;
 import com.wzy.yuanpicturebackend.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wzy.yuanpicturebackend.model.vo.LoginUserVO;
+import com.wzy.yuanpicturebackend.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author wzy
@@ -42,9 +46,44 @@ public interface UserService extends IService<User> {
     String getEncryptPassword(String password);
 
     /**
+     * 获取当前登录用户
+     * @param request 请求
+     * @return 当前登录用户
+     */
+    User getLoginUser(HttpServletRequest request);
+
+    /**
+     * 获取登录脱敏用户信息
+     * @param user 用户
+     * @return 脱敏登录用户信息
+     */
+    LoginUserVO getLoginUserVO(User user);
+
+    /**
      * 获取脱敏用户信息
      * @param user 用户
      * @return 脱敏用户信息
      */
-    LoginUserVO getLoginUserVO(User user);
+    UserVO getUserVO(User user);
+
+    /**
+     * 获取脱敏用户信息列表
+     * @param userList 用户列表
+     * @return 脱敏用户信息列表
+     */
+    List<UserVO> getUserVOList(List<User> userList);
+
+    /**
+     * 用户注销（登出）
+     * @param request
+     * @return
+     */
+    boolean userLogout(HttpServletRequest request);
+
+    /**
+     * 获取查询条件
+     * @param userQueryRequest
+     * @return
+     */
+    QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 }
