@@ -35,7 +35,6 @@ knife4j:
     version: v1.0
     group:
       default:
-        group-name: 默认分组
         api-rule: package
         api-rule-resources:
           - com.wzy.yuanpicturebackend.controller
