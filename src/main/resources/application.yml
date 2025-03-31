@@ -38,3 +38,5 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.wzy.yuanpicturebackend.controller
+
+# 对象存储配置（需要从腾讯云获取）
