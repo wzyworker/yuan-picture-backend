@@ -50,7 +50,7 @@ public class FileManage {
         String uuid = RandomUtil.randomString(16);
         String originalFilename = multipartFile.getOriginalFilename();
         // 自己拼接文件名称，不让用户介入，不使用原始文件名称，保证安全性
-        String uploadFileName = String.format("%s_/%s./%s", DateUtil.formatDate(new Date()),
+        String uploadFileName = String.format("%s_%s.%s", DateUtil.formatDate(new Date()),
                 uuid, FileUtil.getSuffix(originalFilename));
         String uploadPath = String.format("%s/%s", uploadPathPrefix, uploadFileName);
         // 解析结果并返回
@@ -61,7 +61,7 @@ public class FileManage {
             // 保存文件
             multipartFile.transferTo(file);
             // 上传文件，拿到上传结果对象
-            PutObjectResult putObjectResult = cosManage.putObject(uploadPath, file);
+            PutObjectResult putObjectResult = cosManage.putPictureObject(uploadPath, file);
             // 获取图片信息对象
             ImageInfo imageInfo = putObjectResult.getCiUploadResult().getOriginalInfo().getImageInfo();
             // 封装返回结果
