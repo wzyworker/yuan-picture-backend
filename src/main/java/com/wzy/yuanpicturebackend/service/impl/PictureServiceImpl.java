@@ -16,11 +16,14 @@ import com.wzy.yuanpicturebackend.model.dto.picture.PictureUploadRequest;
 import com.wzy.yuanpicturebackend.model.entity.Picture;
 import com.wzy.yuanpicturebackend.model.entity.User;
 import com.wzy.yuanpicturebackend.model.vo.PictureVO;
+import com.wzy.yuanpicturebackend.model.vo.UserVO;
 import com.wzy.yuanpicturebackend.service.PictureService;
+import com.wzy.yuanpicturebackend.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
 
     @Resource
     private FileManage fileManage;
+
+    @Resource
+    private UserService userService;
 
     @Override
     public PictureVO uploadPicture(MultipartFile multipartFile, PictureUploadRequest pictureUploadRequest, User loginUser) {
@@ -127,6 +133,19 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         queryWrapper.orderBy(StrUtil.isNotEmpty(sortField), sortOrder.equals("ascend"), sortField);
         return queryWrapper;
 
+    }
+
+    @Override
+    public PictureVO getPictureVO(Picture picture, HttpServletRequest request) {
+        PictureVO pictureVO = PictureVO.objToVo(picture);
+        // 关联查询的图片的用户信息
+        Long userId = picture.getUserId();
+        if (userId != null && userId > 0) {
+            User user = userService.getById(userId);
+            UserVO userVO = userService.getUserVO(user);
+            pictureVO.setUser(userVO);
+        }
+        return pictureVO;
     }
 }
 
