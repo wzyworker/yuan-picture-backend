@@ -1,6 +1,7 @@
 package com.wzy.yuanpicturebackend.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wzy.yuanpicturebackend.model.dto.picture.PictureQueryRequest;
 import com.wzy.yuanpicturebackend.model.dto.picture.PictureUploadRequest;
@@ -36,7 +37,7 @@ public interface PictureService extends IService<Picture> {
      * @param pictureQueryRequest
      * @return
      */
-    QueryWrapper<User> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
+    QueryWrapper<Picture> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
 
     /**
      * 获取脱敏图片信息
@@ -45,4 +46,14 @@ public interface PictureService extends IService<Picture> {
      * @return
      */
     PictureVO getPictureVO(Picture picture, HttpServletRequest request);
+
+    /**
+     * 分页获取图片列表
+     * @param picturePage
+     * @param request
+     * @return
+     */
+    Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
+
+    void validPicture(Picture picture);
 }
